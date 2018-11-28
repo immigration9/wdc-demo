@@ -39,6 +39,12 @@ Object.defineProperty(exports, "ChartMediator", {
     return _Chart.ChartMediator;
   }
 });
+Object.defineProperty(exports, "PublicLegend", {
+  enumerable: true,
+  get: function get() {
+    return _Chart.PublicLegend;
+  }
+});
 
 var _ColorPicker = require("./ColorPicker");
 
