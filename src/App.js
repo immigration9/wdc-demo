@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { LineChart, ChartMediator, PublicLegend } from './wdc'
+import { LineChart, ChartMediator, PublicLegend, ChartWrapper } from './wdc'
 
 const MAX_INST = 4;
 const COLOR_ID = 12345;
@@ -13,16 +13,21 @@ class App extends Component {
       realtime: false,
       chartCanvas: [],
       charts: [],
-      legend: this.legend.dataset
+      legend: [],
+      reactChartCanvas: [],
+      updateDataset: [],
+      reactUpdateDataset: [],
     }
     this.id = 0;
     this.oids = [];
-
+    this.reactOids = [];
 
     this.dataset = this.createDataset();
+
+    this.reactDataset = this.createDatasetReact();
+    this.mediator = ChartMediator;
   }
   componentDidMount() {
-    this.mediator = ChartMediator;
     this.legend = new PublicLegend(COLOR_ID);
   }
 
@@ -68,10 +73,20 @@ class App extends Component {
     })
   }
 
+  updateDataReact = () => {
+    let dataset = this.createUpdateDatasetReact();
+    this.legend.updateData(dataset);
+
+    this.setState({
+      reactUpdateDataset: dataset,
+      legend: this.legend.dataset
+    });
+  }
+
   createTimedata = (count, start, end) => {
     let out = [];
 
-    for (let i = count; i > 0; i--) {
+    for (let i = 0; i < count; i++) {
       let input = [];
       let time = parseInt(new Date().getTime() / 1000);
       let timestamp = (time * 1000)  - (i * 5 * 1000);
@@ -92,9 +107,14 @@ class App extends Component {
     let that = this;
     if (this.state.realtime) {
       clearInterval(this.realtime);
+      clearInterval(this.realtimeReact);
     } else {
       this.realtime = setInterval(() => {
         that.updateData();
+      }, 5000);
+
+      this.realtimeReact = setInterval(() => {
+        that.updateDataReact();
       }, 5000);
     }
     this.setState({
@@ -112,6 +132,34 @@ class App extends Component {
     this.setState({
       chartCanvas: [ ...chartCanvas, canvas ]
     })
+  }
+
+  createDatasetReact = () => {
+    let out = [];
+    for (let i = 0; i < MAX_INST; i++) {
+      let oid = parseInt(Math.random() * 1000000);
+      out.push({
+        oid: oid,
+        oname: `TC-29-96-8${oid}`,
+        data: this.createTimedata(60, 100 / MAX_INST * i, 100 / MAX_INST * (i + 1))
+      })
+      this.reactOids.push(oid);
+    }
+    return out;
+  }
+
+  createUpdateDatasetReact = () => {
+    let out = [];
+    for (let i = 0; i < MAX_INST; i++) {
+      out.push({
+        oid: this.reactOids[i],
+        oname: `TC-29-96-8${this.reactOids[i]}`,
+        data: this.createTimedata(1, 100 / MAX_INST * i, 100 / MAX_INST * (i + 1))
+      })
+    }
+    console.log(this.reactOids);
+
+    return out;
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -134,23 +182,32 @@ class App extends Component {
   }
 
   handleLegendClick = (e, oid) => {
-    console.log("Handled Legend Click");
-    console.log(oid);
     this.legend.handleClick(oid);
+  }
+
+  handleAddReactChart = () => {
+    const { reactChartCanvas } = this.state;
+
+    let chart = 1
+    this.setState({
+      reactChartCanvas: reactChartCanvas.concat(chart)
+    })
   }
 
   render() {
     let that = this;
     return (
       <div>
-        <div>
+        <div style={{ padding: '10px' }}>
           <h2>Control Panel</h2>
           <button onClick={this.handleRealtime}>{this.state.realtime ? "Stop Realtime" : "Start Realtime"}</button>
-          <button onClick={this.handleAddChart}>Add Chart</button>
+          <button onClick={this.handleAddChart}>Add Line Chart</button>
+          <button onClick={this.handleAddReactChart}>Add React-Wrapper Line Chart</button>
         </div>
         <hr/>
-        <div>
+        <div style={{ minHeight: '30px' }}>
           {this.state.legend.map((legend) => {
+            console.log(legend.oid);
             return <button onClick={(e) => that.handleLegendClick(e, legend.oid)}>{legend.oname}</button>
           })}
         </div>
@@ -158,6 +215,13 @@ class App extends Component {
         <div>
           {this.state.chartCanvas.map((chart) => {
             return chart;
+          })}
+        </div>
+        <hr/>
+        <div>
+          <ChartWrapper id={"test" + parseInt(Math.random() * 1000)} mediator={this.mediator} data={this.reactDataset} updateData={this.state.reactUpdateDataset} type='LineChart' showLegend={false} colorId={COLOR_ID} />
+          { this.state.reactChartCanvas.map((Wrapper) => {
+            return <ChartWrapper id={"test" + parseInt(Math.random() * 1000)} mediator={this.mediator} data={this.reactDataset} updateData={this.state.reactUpdateDataset} type='LineChart' showLegend={false} colorId={COLOR_ID} />
           })}
         </div>
       </div>

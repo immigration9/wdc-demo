@@ -45,6 +45,12 @@ Object.defineProperty(exports, "PublicLegend", {
     return _Chart.PublicLegend;
   }
 });
+Object.defineProperty(exports, "ChartWrapper", {
+  enumerable: true,
+  get: function get() {
+    return _wrapper.ChartWrapper;
+  }
+});
 
 var _ColorPicker = require("./ColorPicker");
 
@@ -55,3 +61,5 @@ var _core = require("./core");
 var _components = require("./components");
 
 var _Chart = require("./Chart");
+
+var _wrapper = require("./wrapper");
