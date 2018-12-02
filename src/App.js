@@ -157,7 +157,6 @@ class App extends Component {
         data: this.createTimedata(1, 100 / MAX_INST * i, 100 / MAX_INST * (i + 1))
       })
     }
-    console.log(this.reactOids);
 
     return out;
   }
@@ -207,7 +206,6 @@ class App extends Component {
         <hr/>
         <div style={{ minHeight: '30px' }}>
           {this.state.legend.map((legend) => {
-            console.log(legend.oid);
             return <button onClick={(e) => that.handleLegendClick(e, legend.oid)}>{legend.oname}</button>
           })}
         </div>
