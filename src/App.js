@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { LineChart, ChartMediator, PublicLegend, ChartWrapper } from './wdc'
 
-const MAX_INST = 4;
+const MAX_INST = 20;
 const COLOR_ID = 12345;
 
 class App extends Component {
