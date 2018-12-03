@@ -1,3 +1,15 @@
+# whatap-designed-components demo
+
+To start, please clone `whatap-designed-components` first.
+
+
+1. Go to a different folder and clone `git clone git@github.com:whatap/whatap-designed-components.git`
+2. `npm install`
+3. `npm run build:demo`: this outputs the build to directory `~/git/wdc-demo`. If you require another directory, please modify the `package.json` file
+4. Come back to this project and `npm install`
+5. `npm start`
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
