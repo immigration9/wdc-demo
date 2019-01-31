@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
-import { LineChart, ChartMediator, PublicLegend, ChartWrapper } from './wdc'
+import { LineChart, ChartMediator, PublicLegend, ChartWrapper, PublicLegendWrapper } from './wdc'
 
-const MAX_INST = 20;
+const MAX_INST = 5;
 const COLOR_ID = 12345;
+
+const options = {
+  yAxis: {
+    maxValue: 100
+  }
+}
 
 class App extends Component {
   constructor() {
@@ -27,6 +33,7 @@ class App extends Component {
     this.reactDataset = this.createDatasetReact();
     this.mediator = ChartMediator;
   }
+
   componentDidMount() {
     this.legend = new PublicLegend(COLOR_ID);
   }
@@ -34,10 +41,11 @@ class App extends Component {
   createDataset = () => {
     let out = [];
     for (let i = 0; i < MAX_INST; i++) {
-      let oid = parseInt(Math.random() * 1000000);
+      let oid = parseInt(Math.random() * 100);
       out.push({
-        oid: oid,
-        oname: `TC-29-96-8${oid}`,
+        id: oid,
+        key: oid,
+        label: `TC-29-96-8${oid}`,
         data: this.createTimedata(60, 100 / MAX_INST * i, 100 / MAX_INST * (i + 1))
       })
 
@@ -51,8 +59,9 @@ class App extends Component {
     let out = [];
     for (let i = 0; i < MAX_INST; i++) {
       out.push({
-        oid: this.oids[i],
-        oname: `TC-29-96-8${this.oids[i]}`,
+        id: this.oids[i],
+        key: this.oids[i],
+        label: `TC-29-96-8${this.oids[i]}`,
         data: this.createTimedata(1, 100 / MAX_INST * i, 100 / MAX_INST * (i + 1))
       })
     }
@@ -65,7 +74,7 @@ class App extends Component {
     this.state.charts.map((chart) => {
       let updateDataset = that.createUpdateDataset();
       chart.updateData(updateDataset);
-      that.legend.updateData(updateDataset);
+      that.legend.loadData(updateDataset);
     });
 
     this.setState({
@@ -75,7 +84,7 @@ class App extends Component {
 
   updateDataReact = () => {
     let dataset = this.createUpdateDatasetReact();
-    this.legend.updateData(dataset);
+    this.legend.loadData(dataset);
 
     this.setState({
       reactUpdateDataset: dataset,
@@ -137,11 +146,12 @@ class App extends Component {
   createDatasetReact = () => {
     let out = [];
     for (let i = 0; i < MAX_INST; i++) {
-      let oid = parseInt(Math.random() * 1000000);
+      let oid = parseInt(Math.random() * 100);
       out.push({
-        oid: oid,
-        oname: `TC-29-96-8${oid}`,
-        data: this.createTimedata(60, 100 / MAX_INST * i, 100 / MAX_INST * (i + 1))
+        id: oid,
+        key: oid,
+        label: `TC-29-96-8${oid}`,
+        data: this.createTimedata(30, 100 / MAX_INST * i, 100 / MAX_INST * (i + 1))
       })
       this.reactOids.push(oid);
     }
@@ -152,8 +162,9 @@ class App extends Component {
     let out = [];
     for (let i = 0; i < MAX_INST; i++) {
       out.push({
-        oid: this.reactOids[i],
-        oname: `TC-29-96-8${this.reactOids[i]}`,
+        id: this.reactOids[i],
+        key: this.reactOids[i],
+        label: `TC-29-96-8${this.reactOids[i]}`,
         data: this.createTimedata(1, 100 / MAX_INST * i, 100 / MAX_INST * (i + 1))
       })
     }
@@ -166,9 +177,9 @@ class App extends Component {
 
     if (prevState.chartCanvas.length !== this.state.chartCanvas.length) {
       let canvas = chartCanvas[chartCanvas.length - 1];
-      let lineChart = new LineChart(canvas.props.id, COLOR_ID);
+      let lineChart = new LineChart(canvas.props.id, options);
       
-      this.mediator.subscribe(lineChart);
+      // this.mediator.subscribe(lineChart);
       
       lineChart.loadData(this.dataset);
       this.legend.loadData(this.dataset);
@@ -206,7 +217,7 @@ class App extends Component {
         <hr/>
         <div style={{ minHeight: '30px' }}>
           {this.state.legend.map((legend) => {
-            return <button onClick={(e) => that.handleLegendClick(e, legend.oid)}>{legend.oname}</button>
+            return <button onClick={(e) => that.handleLegendClick(e, legend.id)}>{legend.label}</button>
           })}
         </div>
         <hr/>
@@ -217,9 +228,17 @@ class App extends Component {
         </div>
         <hr/>
         <div>
-          <ChartWrapper id={"test" + parseInt(Math.random() * 1000)} mediator={this.mediator} data={this.reactDataset} updateData={this.state.reactUpdateDataset} type='LineChart' showLegend={false} colorId={COLOR_ID} />
-          { this.state.reactChartCanvas.map((Wrapper) => {
-            return <ChartWrapper id={"test" + parseInt(Math.random() * 1000)} mediator={this.mediator} data={this.reactDataset} updateData={this.state.reactUpdateDataset} type='LineChart' showLegend={false} colorId={COLOR_ID} />
+          <PublicLegendWrapper data={this.reactDataset} updateData={this.state.reactUpdateDataset}/>
+        </div>
+        <hr/>
+        <div>
+          {/* <ChartWrapper id={"test" + parseInt(Math.random() * 1000)} mediator={this.mediator} data={this.reactDataset} updateData={this.state.reactUpdateDataset} type='LineChart' showLegend={false} colorId={COLOR_ID} /> */}
+          { this.state.reactChartCanvas.map((wr) => {
+            return (
+              <div style={{ display: 'inline-block', width: '600px', height: '300px'}}>
+                <ChartWrapper id={"test" + parseInt(Math.random() * 1000)} data={this.reactDataset} updateData={this.state.reactUpdateDataset} type='LineChart' showLegend={false} options={options}/>
+              </div>
+            )
           })}
         </div>
       </div>
