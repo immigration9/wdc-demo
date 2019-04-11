@@ -6,7 +6,11 @@ const COLOR_ID = 12345;
 
 const options = {
   yAxis: {
-    maxValue: 100
+    maxValue: 100,
+    textPosition: 'inner',
+    tick: {
+      borderWidth: 5,
+    }
   }
 }
 
@@ -236,7 +240,7 @@ class App extends Component {
           { this.state.reactChartCanvas.map((wr) => {
             return (
               <div style={{ display: 'inline-block', width: '600px', height: '300px'}}>
-                <ChartWrapper id={"test" + parseInt(Math.random() * 1000)} data={this.reactDataset} updateData={this.state.reactUpdateDataset} type='LineChart' showLegend={false} options={options}/>
+                <ChartWrapper id={"test" + parseInt(Math.random() * 1000)} data={this.reactDataset} updateData={this.state.reactUpdateDataset} type='LineChart' showLegend={false} options={options} theme="bk"/>
               </div>
             )
           })}

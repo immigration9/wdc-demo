@@ -1,0 +1,15 @@
+.canvasWrapper{
+  outline: 2px black solid;
+  margin: 30px;
+}
+
+.wrapper{
+  width: 150px;
+  height: 150px;
+}
+
+.autoHeightWrapper{
+  width: 40vw;
+  height: 30vh;
+  color: rgba(0, 0, 0, 1);
+}
