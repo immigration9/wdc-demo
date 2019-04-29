@@ -6,7 +6,8 @@ const COLOR_ID = 12345;
 
 const options = {
   yAxis: {
-    maxValue: 100,
+    // maxValue: 100,
+    fixedMax: false,
     textPosition: 'inner',
     tick: {
       borderWidth: 5,
