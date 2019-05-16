@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { LineChart, ChartMediator, PublicLegend, ChartWrapper, PublicLegendWrapper } from './wdc'
+import { LineChart, ChartMediator, HitmapChart, PublicLegend, ChartWrapper, PublicLegendWrapper } from './wdc'
+import { fakeData } from './testfile';
 
 const MAX_INST = 5;
 const COLOR_ID = 12345;
@@ -41,6 +42,10 @@ class App extends Component {
 
   componentDidMount() {
     this.legend = new PublicLegend(COLOR_ID);
+    
+    this.hitmapChart = new HitmapChart("hitmapchart", { type: "HitmapChart", hitmap: { isStatic: true } });
+    this.hitmapChart.loadData(fakeData);
+    this.hitmapChart.drawChart();
   }
 
   createDataset = () => {
@@ -224,6 +229,9 @@ class App extends Component {
           {this.state.legend.map((legend) => {
             return <button onClick={(e) => that.handleLegendClick(e, legend.id)}>{legend.label}</button>
           })}
+        </div>
+        <div>
+          <canvas id={"hitmapchart"} width="1200" height="600" />
         </div>
         <hr/>
         <div>

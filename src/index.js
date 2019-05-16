@@ -4,10 +4,11 @@ import './index.css';
 import App from './App';
 import Arc from './ArcChart/Arc';
 import BarChart from './BarChart/BarChart';
+import HitmapChart from './HitmapChart/HitmapChart';
 import * as serviceWorker from './serviceWorker';
 
 // ReactDOM.render(<App />, document.getElementById('root'));
-ReactDOM.render(<BarChart />, document.getElementById('root'));
+ReactDOM.render(<HitmapChart />, document.getElementById('root'));
 // ReactDOM.render(<Arc />, document.getElementById('root'));
 
 
