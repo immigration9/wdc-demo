@@ -1,26 +1,42 @@
 import React, { Component } from 'react';
-import { HitmapChart } from '../wdc'
+import { HitmapChart, HitmapChartWrapper } from '../wdc';
 import { fakeData } from '../testfile';
 
 export default class HitmapChartDemo extends Component {
+  index = 0;
+  constructor(props){
+    super(props);
+    this.state = {};
+  }
   componentDidMount() {
-    this.hitmapChartStatic = new HitmapChart("hitmapchartstatic", { type: "HitmapChart", yAxis: { tick: { display: true }}, hitmap: { isStatic: true } });
-    this.hitmapChartLive = new HitmapChart("hitmapchartlive", { type: "HitmapChart", hitmap: { isStatic: false } });
-    this.hitmapChartStatic.loadHitmapData(fakeData);
+    setInterval(() => {
+      this.index++;
+      const data = {
+        hit: [[Date.now(), fakeData.hit[this.index % fakeData.hit.length - 1][1]]],
+        err: [[Date.now(), fakeData.err[this.index % fakeData.err.length - 1][1]]],
+      }
 
-    // setInterval(() => {
+      console.log('data ===', data);
 
-    // }, 5000);
+      this.setState({
+        updateData: data
+      })
+    }, 5000)
   }
 
   render() {
     return (
       <div>
-        <div>
-          <canvas id={"hitmapchartstatic"} width="1200" height="500"/>
+        <div style={{ width: '80vw', height: '50vh'}}>
+          <HitmapChartWrapper
+            data={fakeData}
+            options={{hitmap: { isStatic: true }}}
+          />
         </div>
-        <div>
-          <canvas id={"hitmapchartlive"} width="1200" height="500"/>
+        <div style={{ width: '80vw', height: '50vh'}}>
+          <HitmapChartWrapper
+            data={this.state.updateData}
+          />
         </div>
       </div>
     )
