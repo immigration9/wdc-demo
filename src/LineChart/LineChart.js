@@ -22,7 +22,7 @@ export default class LineChartDemo extends Component {
       <div>
         <div style={{ width: '80vw', height: '50vh'}}>
           <ChartWrapperV2
-            type="LineChart"
+            type="LineChartV2"
           />
         </div>
         <div style={{ width: '80vw', height: '50vh'}}>          
