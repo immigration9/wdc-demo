@@ -12,7 +12,14 @@ const options = {
     textPosition: 'inner',
     tick: {
       borderWidth: 5,
-    }
+    },
+    horizontalLine: [
+      {
+        value: 40,
+        color: "red",
+        title: "error",
+      },
+    ]
   }
 }
 
@@ -161,7 +168,7 @@ class App extends Component {
         id: oid,
         key: oid,
         label: `TC-29-96-8${oid}`,
-        data: this.createTimedata(30, 100 / MAX_INST * i, 100 / MAX_INST * (i + 1))
+        data: this.createTimedata(30, 10.0 / MAX_INST * i, 100 / MAX_INST * (i + 1))
       })
       this.reactOids.push(oid);
     }

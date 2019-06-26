@@ -5,11 +5,13 @@ import App from './App';
 import Arc from './ArcChart/Arc';
 import BarChart from './BarChart/BarChart';
 import HitmapChart from './HitmapChart/HitmapChart';
+import HitmapAutoScale from './HitmapAutoScale/HitmapAutoScale';
 import LineChart from './LineChart/LineChart';
 import * as serviceWorker from './serviceWorker';
 
 // ReactDOM.render(<App />, document.getElementById('root'));
-ReactDOM.render(<LineChart />, document.getElementById('root'));
+// ReactDOM.render(<LineChart />, document.getElementById('root'));
+ReactDOM.render(<HitmapAutoScale />, document.getElementById('root'));
 // ReactDOM.render(<HitmapChart />, document.getElementById('root'));
 // ReactDOM.render(<Arc />, document.getElementById('root'));
 
