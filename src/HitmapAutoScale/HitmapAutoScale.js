@@ -5,7 +5,6 @@ import { fakeData, fakeData2, fakeData3, fakeData4, fakeData5, fakeData6 } from 
 const options = {
   hitmap: {
     isStatic: true,
-    autoScale: true,
   }
 }
 export default class HitmapAutoScale extends Component {
@@ -19,6 +18,8 @@ export default class HitmapAutoScale extends Component {
               id={"left1"}
               options={options}
               data={fakeData}
+              autoScale={true}
+              storageId="1234"
             />
           </div>
           <div style={{width: '100%', height: '33%'}}>
@@ -26,6 +27,7 @@ export default class HitmapAutoScale extends Component {
               id={"left2"}
               options={options}
               data={fakeData2}
+              autoScale={true}
             />
           </div>
           <div style={{width: '100%', height: '33%'}}>

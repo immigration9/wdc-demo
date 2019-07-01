@@ -9,6 +9,7 @@
     "moment": "^2.22.2",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
+    "react-intl": "^2.9.0",
     "react-scripts": "2.1.1",
     "react-sizeme": "^2.5.2",
     "universal-cookie": "^4.0.0",
